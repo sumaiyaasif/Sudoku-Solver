@@ -9,6 +9,7 @@ def find_possibilities(x, y, puzzle):
         if 0 not in puzzle[i][y] and puzzle[i][y][0] in possibilities:
             possibilities.remove(puzzle[i][y][0])
 
+    # because who doens't like a little bit of code smell
     if x < 3 and y < 3:
         # top left
         for i in range(0, 3):
@@ -80,19 +81,17 @@ def find_all_possibilities(puzzle):
     thereAreZeros = False
     for x in range(0, 9):
         for y in range(0, 9):
-            print("row: " + str(x) + " column: " + str(y))
             if puzzle[x][y][0] == 0:
                 thereAreZeros = True
                 find_possibilities(x, y, puzzle)
     if thereAreZeros:
         find_all_possibilities(puzzle)
     else:
-        print("THIS IS THE FINAL:")
+        print("Final Solution:")
         print_puzzle(puzzle)
     return puzzle
 
 def print_puzzle(puzzle):
-    print("---------------")
     for x in range(0, 9):
         for y in range(0, 9):
             print(puzzle[x][y], end=" ")
