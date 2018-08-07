@@ -9,70 +9,14 @@ def find_possibilities(x, y, puzzle):
         if 0 not in puzzle[i][y] and puzzle[i][y][0] in possibilities:
             possibilities.remove(puzzle[i][y][0])
 
-    # because who doens't like a little bit of code smell
-    if x < 3 and y < 3:
-        # top left
-        for i in range(0, 3):
-            for j in range(0, 3):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
+    top_left_x = (x // 3) * 3
+    top_left_y = (y // 3) * 3
 
-    if x < 3 and 6 > y > 2:
-        # top middle
-        for i in range(0, 3):
-            for j in range(3, 6):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
-
-    if x < 3 and y > 5:
-        # top right
-        for i in range(0, 3):
-            for j in range(6, 9):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
-
-    if 2 < x < 6 and y < 2:
-        # middle left
-        for i in range(3, 6):
-            for j in range(0, 3):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
-
-    if 2 < x < 6 and 6 > y > 2:
-        # middle middle
-        for i in range(3, 6):
-            for j in range(3, 6):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
-
-    if 2 < x < 6 and y > 5:
-        # middle right
-        for i in range(3, 6):
-            for j in range(6, 9):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
-    
-    if x > 5 and y < 2:
-        # bottem left
-        for i in range(6, 9):
-            for j in range(0, 3):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
-
-    if x > 5 and 6 > y > 2:
-        # bottom middle
-        for i in range(6, 9):
-            for j in range(3, 6):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
-
-    if x > 5 and y > 5:
-        # bottom right
-        for i in range(6, 9):
-            for j in range(6, 9):
-                if 0 not in puzzle[i][j] and puzzle[i][j][0] in possibilities:
-                    possibilities.remove(puzzle[i][j][0])
-
+    for i in range(3):
+        for j in range(3):
+            if 0 not in puzzle[i+top_left_x][j+ top_left_y] and puzzle[i+top_left_x][j+top_left_y][0] in possibilities:
+                possibilities.remove(puzzle[i+top_left_x][j+top_left_y][0])
+            
     if len(possibilities) == 1:
         puzzle[x][y][0] = possibilities[0]
         return puzzle
@@ -86,9 +30,6 @@ def find_all_possibilities(puzzle):
                 find_possibilities(x, y, puzzle)
     if thereAreZeros:
         find_all_possibilities(puzzle)
-    else:
-        print("Final Solution:")
-        print_puzzle(puzzle)
     return puzzle
 
 def print_puzzle(puzzle):
@@ -143,8 +84,6 @@ class TestSolver(unittest.TestCase):
 
     def test_puzzle(self):
         find_all_possibilities(self.puzzle)
-        print("----------------")
-        pprint(self.puzzle)
         self.assertEqual(self.puzzle, self.answer)
 
 if __name__ == '__main__':
